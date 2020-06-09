@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd " xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans">
+
+<context:component-scan base-package="com.xworkz.appzone"/>
+
+<mvc:annotation-driven/>
+
+
+<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+
+<property value="/" name="prefix"/>
+
+<property value=".jsp" name="suffix"/>
+
+</bean>
+
+<!-- <bean id="propertySource" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> <property name="locations"> <list> <value>classpath:resources/properties/application.properties</value> <value>classpath:resources/properties/Mail.properties</value> </list> </property> </bean> -->
+
+
+
+<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="datasource">
+
+<property value="jdbc:mysql://localhost:3306/appzone" name="url"/>
+
+<property value="root" name="username"/>
+
+<property value="xworkz" name="password"/>
+
+<property value="com.mysql.jdbc.Driver" name="driverClassName"/>
+
+<!-- <property name="hbm2ddl.auto"></property> -->
+</bean>
+
+
+<bean class="org.springframework.beans.factory.config.PropertiesFactoryBean" id="properties">
+
+
+<property name="properties">
+
+
+<props>
+
+<prop key="hibernate.show_sql">true</prop>
+
+<!-- <prop key="hibernate.hbm2ddl.auto">true</prop> -->
+
+
+<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+
+</props>
+
+</property>
+
+</bean>
+
+
+<bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" id="simple">
+
+<!-- <property name="configLocations" value="classpath:resources/hibernate-config/hibernate.cfg.xml"></property> -->
+
+
+<property name="hibernateProperties" ref="properties"/>
+
+<property name="dataSource" ref="datasource"/>
+
+<property value="com.xworkz.appzone.entity" name="packagesToScan"/>
+
+</bean>
+
+</beans>
